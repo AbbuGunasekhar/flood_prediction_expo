@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIETK Team | Innovative Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6cf7;
+            --secondary: #6f42c1;
+            --dark: #1d2144;
+            --light: #f8f9fa;
+            --gray: #eee;
+            --text: #333;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--secondary);
+            transition: all 0.4s ease;
+            z-index: -1;
+            border-radius: 50px;
+        }
+        
+        .btn:hover:before {
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-title h2 {
+            font-size: 42px;
+            color: var(--dark);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .section-title.visible h2 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.98);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: fadeInRight 1s ease 0.5s forwards;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 35px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 0.5s ease forwards;
+            animation-delay: calc(0.2s * var(--i));
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 120px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e9ecef 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(74, 108, 247, 0.1), rgba(111, 66, 193, 0.1));
+            animation: pulse 8s infinite alternate;
+        }
+        
+        .hero:after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(111, 66, 193, 0.1), rgba(74, 108, 247, 0.1));
+            animation: pulse 12s infinite alternate;
+            animation-delay: 2s;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            color: var(--dark);
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.8s forwards;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #555;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 1.2s forwards;
+        }
+        
+        .hero .btn {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 1.6s forwards;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease;
+        }
+        
+        .about-text.visible h3,
+        .about-text.visible p {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-text .btn {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease 0.6s;
+        }
+        
+        .about-text.visible .btn {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateX(50px) rotate(5deg);
+            transition: all 1s ease;
+        }
+        
+        .about-image.visible img {
+            opacity: 1;
+            transform: translateX(0) rotate(0);
+        }
+        
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+        }
+        
+        .team-member.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+        
+        .member-img {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .member-img:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, var(--dark) 100%);
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .team-member:hover .member-img img {
+            transform: scale(1.1);
+        }
+        
+        .member-info {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .member-info h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .member-role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+            font-size: 18px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gray);
+            color: var(--dark);
+            transition: all 0.4s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        
+        .team-member:hover .social-links a {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px) !important;
+        }
+        
+        .social-links a:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+        
+        .social-links a:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+        
+        .social-links a:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 80px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(74, 108, 247, 0.1), rgba(111, 66, 193, 0.1));
+            animation: pulse 10s infinite alternate;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-column h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .footer-column p {
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+        
+        .footer-column.visible .footer-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 42px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .nav-links li {
+                margin-left: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding-top: 150px;
+                padding-bottom: 100px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo"><i class="fas fa-code"></i>SIETK<span>Team</span></a>
+                <ul class="nav-links">
+                    <li style="--i:1"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <li style="--i:2"><a href="#about">About Us</a></li>
+                    <li style="--i:3"><a href="#team">Our Team</a></li>
+                    <li style="--i:4"><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Innovation Through Collaboration</h1>
+                <p>We are a passionate team of final-year students from Siddharth Institute of Engineering and Technology, creating impactful projects with innovation and teamwork.</p>
+                <a href="#team" class="btn">Meet Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Turning Ideas Into Reality</h3>
+                    <p>We are a dedicated team of final-year students from Siddharth Institute of Engineering and Technology (SIETK), working together to create impactful projects with innovation and teamwork.</p>
+                    <p>Each of us brings unique skills to the table, making our collaboration stronger and more efficient. Our diverse expertise allows us to approach problems from multiple perspectives and develop comprehensive solutions.</p>
+                    <p>Together, we aim to develop solutions that are not only functional but also impactful, with a perfect balance of technology and creativity.</p>
+                    <a href="#team" class="btn">Our Team Members</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Team Collaboration">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet Our Team</h2>
+            </div>
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-member">
+                    <div class="member-img">
+                         <img src="{{ url_for('static', filename='images/guna_image.jpg') }}" alt="Gunasekhar"/>
+                    </div>
+                    <div class="member-info">
+                        <h3>Abbu Gunasekhar</h3>
+                        <span class="member-role">Backend Developer</span>
+                        <p>A skilled backend developer focused on building robust and scalable systems. His strength lies in handling databases, server-side logic, and ensuring smooth application functionality.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-member">
+                    <div class="member-img">
+                         <img src="{{ url_for('static', filename='images/gayatri_audi.jpg') }}" alt="Gayathri"/>
+                    </div>
+                    <div class="member-info">
+                        <h3>Chennapatanam Gayathri</h3>
+                        <span class="member-role">Data Collector</span>
+                        <p>Responsible for gathering, organizing, and analyzing datasets that drive our projects. She ensures that the team works with accurate and relevant information for better outcomes.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-member">
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/durga.jpg') }}" alt="Durga"/>
+                    </div>
+                    <div class="member-info">
+                        <h3>T Durgaprasad</h3>
+                        <span class="member-role">UI/UX Developer</span>
+                        <p>Specializes in creating engaging and user-friendly interfaces. His designs ensure that users have a seamless and visually appealing experience while interacting with our applications.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <p>We are a passionate team of final-year students from Siddharth Institute of Engineering and Technology, creating impactful projects with innovation and teamwork.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p>Siddharth Institute of Engineering and Technology</p>
+                    <p>Puttur, Andhra Pradesh</p>
+                    <p>Email: sietkteam@example.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SIETK Team. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            const sections = document.querySelectorAll('section');
+            const teamMembers = document.querySelectorAll('.team-member');
+            const footerColumns = document.querySelectorAll('.footer-column');
+            const sectionTitles = document.querySelectorAll('.section-title');
+            const aboutText = document.querySelector('.about-text');
+            const aboutImage = document.querySelector('.about-image');
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            // Observe sections
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Observe team members with delay
+            teamMembers.forEach((member, index) => {
+                observer.observe(member);
+                member.style.transitionDelay = `${index * 0.2}s`;
+            });
+            
+            // Observe footer columns
+            footerColumns.forEach((column, index) => {
+                observer.observe(column);
+                const links = column.querySelectorAll('li');
+                links.forEach((li, liIndex) => {
+                    li.style.transitionDelay = `${(index * 0.2) + (liIndex * 0.1)}s`;
+                });
+            });
+            
+            // Observe section titles
+            sectionTitles.forEach(title => {
+                observer.observe(title);
+            });
+            
+            // Observe about sections
+            if (aboutText) observer.observe(aboutText);
+            if (aboutImage) observer.observe(aboutImage);
+            
+            // Animate team member social icons on hover
+            teamMembers.forEach(member => {
+                member.addEventListener('mouseenter', function() {
+                    const socialLinks = this.querySelectorAll('.social-links a');
+                    socialLinks.forEach((link, index) => {
+                        link.style.transitionDelay = `${index * 0.1}s`;
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
